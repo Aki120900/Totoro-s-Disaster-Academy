@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Totoro’s Safety Match Game</title>
+  <style>
+    body {
+      font-family: 'Comic Neue', cursive;
+      background: #fff8f0;
+      margin: 0;
+      text-align: center;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      margin-top: 10px;
+      font-size: 2.5em;
+      color: #ff6f61;
+    }
+
+    #start-screen {
+      margin-top: 30px;
+    }
+
+    #start-screen p {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+
+    #game-board {
+      width: 90%;
+      max-width: 720px;
+      margin: 20px auto;
+      display: grid;
+      gap: 15px;
+    }
+
+    .card {
+      background: #ffe0b2;
+      border-radius: 10px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2em;
+      cursor: pointer;
+      box-shadow: 2px 2px 6px #aaa;
+      transition: transform 0.3s;
+      overflow: hidden;
+    }
+
+    .card.flip {
+      background: #ffcc80;
+      cursor: default;
+      font-size: 0.85em;
+      flex-direction: column;
+      text-align: center;
+      padding: 5px;
+    }
+
+    .card.matched {
+      background: #c8e6c9;
+      cursor: default;
+    }
+
+    #totoro {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 360px; 
+      animation: bounce 2s infinite;
+    }
+
+    #reaction {
+      margin-top: 20px;
+      font-style: italic;
+      font-size: 1.1em;
+    }
+
+    .button {
+      margin: 10px;
+      background: #00bcd4;
+      color: white;
+      padding: 12px 30px;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .button:hover {
+      background: #0097a7;
+      transform: scale(1.05);
+    }
+
+    #home-btn {
+      position: fixed;
+      bottom: 320px;
+      right: 40px;
+      background: #ff6f61;
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-size: 1em;
+      font-weight: bold;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    #home-btn:hover {
+      background: #d8432f;
+      transform: scale(1.05);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @media (max-width: 600px) {
+      #game-board {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Totoro’s Safety Match</h1>
+
+<!-- Start Screen -->
+<div id="start-screen">
+  <p><strong>Totoro says:</strong> Choose your level to begin your adventure!</p>
+  <button class="button" onclick="startGame('easy')">🧒 Easy Mode</button>
+  <button class="button" onclick="startGame('hard')">🧠 Hard Mode</button>
+</div>
+
+<!-- Game Board -->
+<div id="game-board" style="display:none;"></div>
+
+<!-- Totoro Reaction -->
+<p id="reaction" style="display:none;">🐾 Totoro says: Let's start matching!</p>
+
+<!-- Restart Button -->
+<button class="button" id="restart-btn" onclick="resetGame()" style="display:none;">🔁 Restart Game</button>
+
+<!-- Home Button -->
+<a href="index.html" id="home-btn">🏡 Totoro says: Let’s go home!</a>
+
+<!-- Totoro -->
+<img id="totoro" src="Totoro.png" alt="Totoro" />
+
+<script>
+const easyItems = [
+  { emoji: "🧯", label: "Use fire extinguisher" },
+  { emoji: "🚪", label: "Find nearest exit" },
+  { emoji: "🧃", label: "Stay hydrated" },
+  { emoji: "📻", label: "Listen to radio alerts" },
+  { emoji: "🛏️", label: "Take cover under bed" },
+  { emoji: "🧰", label: "Have an emergency kit" }
+];
+
+const hardItems = [
+  ...easyItems,
+  { emoji: "🔦", label: "Use flashlight" },
+  { emoji: "🗺️", label: "Follow evacuation route" },
+  { emoji: "📞", label: "Call emergency number" },
+  { emoji: "🥫", label: "Pack canned food" },
+  { emoji: "🧼", label: "Wash hands after flood" },
+  { emoji: "🪖", label: "Protect your head" }
+];
+
+let board = [];
+let flipped = [];
+let matchedPairs = 0;
+let totalPairs = 0;
+
+function startGame(level) {
+  const boardEl = document.getElementById("game-board");
+  const reaction = document.getElementById("reaction");
+  document.getElementById("start-screen").style.display = "none";
+  boardEl.style.display = "grid";
+  reaction.style.display = "block";
+  document.getElementById("restart-btn").style.display = "inline-block";
+  flipped = [];
+  matchedPairs = 0;
+
+  let items = level === 'hard' ? hardItems : easyItems;
+  totalPairs = items.length;
+
+  boardEl.style.gridTemplateColumns = level === 'hard' ? 'repeat(4, 1fr)' : 'repeat(3, 1fr)';
+  boardEl.innerHTML = '';
+  reaction.textContent = "🐾 Totoro says: Let's start matching!";
+
+  board = [...items, ...items].sort(() => 0.5 - Math.random());
+
+  board.forEach((item, index) => {
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.dataset.index = index;
+    card.dataset.value = item.emoji + " " + item.label;
+    card.innerHTML = "❓";
+    card.addEventListener("click", () => flipCard(card, item));
+    boardEl.appendChild(card);
+  });
+}
+
+function flipCard(card, item) {
+  if (card.classList.contains("flip") || card.classList.contains("matched") || flipped.length === 2) return;
+
+  card.classList.add("flip");
+  card.innerHTML = card.dataset.value;
+  flipped.push({ card, value: card.dataset.value });
+
+  if (flipped.length === 2) {
+    checkMatch();
+  }
+}
+
+function checkMatch() {
+  const [first, second] = flipped;
+
+  if (first.value === second.value) {
+    first.card.classList.add("matched");
+    second.card.classList.add("matched");
+    document.getElementById("reaction").textContent = "🎉 Totoro says: That’s a match!";
+    matchedPairs++;
+    if (matchedPairs === totalPairs) {
+      document.getElementById("reaction").textContent = "🏆 Totoro says: You matched them all! You're a safety star!";
+    }
+  } else {
+    document.getElementById("reaction").textContent = "😅 Totoro says: Not quite… try again!";
+    setTimeout(() => {
+      first.card.classList.remove("flip");
+      second.card.classList.remove("flip");
+      first.card.innerHTML = "❓";
+      second.card.innerHTML = "❓";
+    }, 900);
+  }
+
+  flipped = [];
+}
+
+function resetGame() {
+  location.reload(); // Reload to return to start
+}
+</script>
+
+</body>
+</html>

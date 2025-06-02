@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Real Data Visualisations</title>
+  <style>
+    body {
+      font-family: 'Comic Neue', cursive;
+      background-color: #fefaf6;
+      color: #333;
+      margin: 0;
+      text-align: center;
+    }
+
+    header {
+      background-color: #ff6f61;
+      color: white;
+      padding: 40px 20px 20px;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      margin: 0 0 10px;
+    }
+
+    #totoro {
+      width: 300px;
+      animation: bounce 2s infinite;
+      margin: 20px auto 10px;
+    }
+
+    #quote {
+      font-style: italic;
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      color: #004b61;
+    }
+
+    .data-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 30px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .data-buttons a {
+      background-color: #00b4d8;
+      color: white;
+      padding: 15px 30px;
+      font-size: 1.2em;
+      border-radius: 20px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      min-width: 220px;
+    }
+
+    .data-buttons a:hover {
+      background-color: #0077b6;
+    }
+
+    .home-btn {
+      margin: 40px auto 60px;
+    }
+
+    .home-btn a {
+      background: #6c757d;
+      color: white;
+      padding: 12px 25px;
+      font-size: 1em;
+      border-radius: 25px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .home-btn a:hover {
+      background: #495057;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Real Data Visualisations</h1>
+    <img id="totoro" src="Totoro.png" alt="Totoro">
+    <p id="quote">🐾 Totoro says: Let’s see how often natural disasters are happening!</p>
+  </header>
+
+  <div class="data-buttons">
+    <a href="earthquake.html">🌍 Earthquakes</a>
+    <a href="tsunami.html">🌊 Tsunamis</a>
+    <a href="volcano.html">🌋 Volcano</a>
+    <a href="flooding.html">🌧️ Flooding</a>
+    <a href="cyclone.html">💨 Cyclone</a>
+    <a href="landslides.html">🪨 Landslides</a>
+    <a href="global_value.html">📊 Global Value</a>
+    <a href="/Value/choropleth_map_buildings.html">🎯 Buildings Choropleth</a>
+    <a href="/Value/choropleth_map_infrastructure.html">🎯 Infrastructure Choropleth</a>
+  </div>
+
+  <div class="home-btn">
+    <a href="index.html">🏠 Let’s go back home with Totoro</a>
+    <a href="visualisation.html">🏠 Let’s go back to Visualisations & Data section</a>
+  </div>
+
+</body>
+</html>

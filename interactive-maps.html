@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interactive Map</title>
+  <style>
+    body {
+      font-family: 'Comic Neue', cursive;
+      background-color: #fefaf6;
+      color: #333;
+      margin: 0;
+      text-align: center;
+    }
+
+    header {
+      background-color: #ff6f61;
+      color: white;
+      padding: 40px 20px;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      margin: 0;
+    }
+
+    .map-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 180px 20px 20px;
+    }
+
+    .map-buttons a {
+      background-color: #00b4d8;
+      color: white;
+      padding: 15px 25px;
+      font-size: 1.2em;
+      border-radius: 15px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+      flex: 1 1 150px;
+      max-width: 220px;
+    }
+
+    .map-buttons a:hover {
+      background-color: #0077b6;
+    }
+
+    .large-map-btn {
+      display: inline-block;
+      margin-top: 40px;
+      background-color: #007f5f;
+      color: white;
+      padding: 20px 40px;
+      font-size: 1.5em;
+      border-radius: 25px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .large-map-btn:hover {
+      background-color: #00664b;
+    }
+
+    #totoro {
+      width: 300px;
+      animation: bounce 2s infinite;
+      margin: 50px auto 20px;
+    }
+
+    .home-btn {
+      margin: 30px auto 40px;
+    }
+
+    .home-btn a {
+      background: #6c757d;
+      color: white;
+      padding: 12px 25px;
+      font-size: 1em;
+      border-radius: 25px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .home-btn a:hover {
+      background: #495057;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Totoro’s Hazard Maps</h1>
+    <p>Explore different disaster maps and interactive tools!</p>
+  </header>
+
+  <div class="map-buttons">
+    <a href="interactive_earthquakes_map.html">🌍 Earthquake Map</a>
+    <a href="interactive_tsunami_map.html">🌊 Tsunami Map</a>
+    <a href="interactive_volcanoes_map.html">🌋 Volcano Map</a>
+  </div>
+
+  <a href="interactive_map.html" class="large-map-btn">🗺️ Interactive Map</a>
+
+  <img id="totoro" src="Totoro.png" alt="Totoro" />
+
+  <div class="home-btn">
+    <a href="index.html">🏠 Let’s go back home with Totoro</a>
+    <a href="visualisation.html">🏠 Back to Visualisations</a>
+  </div>
+
+</body>
+</html>

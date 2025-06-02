@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hero Escape Simulations</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Neue', cursive, sans-serif;
+      background-color: #fff8f0;
+      color: #333;
+      text-align: center;
+    }
+
+    header {
+      background: #ff6f61;
+      color: white;
+      padding: 2rem 1rem;
+    }
+
+    header h1 {
+      margin-bottom: 0.5rem;
+      font-size: 2.5em;
+    }
+
+    header p {
+      font-size: 1.2em;
+    }
+
+    .description {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem 2rem;
+      background: #fff3e0;
+      border-left: 5px solid #e67e22;
+      font-size: 1.1em;
+      line-height: 1.5;
+      border-radius: 8px;
+    }
+
+    iframe {
+      width: 90%;
+      height: 480px;
+      border: 5px solid #e67e22;
+      border-radius: 12px;
+      margin: 30px auto;
+      display: block;
+      box-shadow: 4px 4px 0 #333;
+    }
+
+    .back-link {
+      display: inline-block;
+      background: #e67e22;
+      color: white;
+      padding: 12px 20px;
+      text-decoration: none;
+      border-radius: 25px;
+      font-weight: bold;
+      margin-bottom: 40px;
+      box-shadow: 2px 2px 0 #333;
+    }
+
+    .back-link:hover {
+      background: #cf711c;
+    }
+
+    .totoro-guide {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      text-align: center;
+      width: 300px;
+      z-index: 10;
+      animation: slideIn 1.5s ease-out, bounce 2s infinite 1.5s;
+    }
+
+    .totoro-guide img {
+      width: 280px;
+    }
+
+    .totoro-guide .bubble {
+      background: #fff;
+      color: #333;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+      margin-bottom: 5px;
+      font-size: 1em;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    footer {
+      font-size: 0.9em;
+      background: #ecf0f1;
+      padding: 1rem;
+      color: #555;
+    }
+
+    @media (max-width: 600px) {
+      .totoro-guide {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Video Simulations</h1>
+    <p>Natural disasters can be difficult for young people to understand if they have never experience one.</p>
+    <p>So simulations show what it actually looks and feels like to be in a disaster - how quickly events unfold, how people move, where danger zones are, and how to escape safely.</p>
+  </header>
+
+  <div class="description">
+    These videos were created to simulate natural disasters based on real-world case scenarios.
+    To avoid depicting real tragedies and to maintain ethical standards, an AI generator (LTX Studio)
+    was used to produce fictional representations.
+  </div>
+
+  <iframe src="https://www.youtube.com/embed/VEEL4CdX6vo" title="Severo Kurils The Great Quake" allowfullscreen></iframe>
+
+  <iframe src="https://www.youtube.com/embed/kPfKDozAqIo" title="Japan 2011" allowfullscreen></iframe>
+
+  <iframe src="https://www.youtube.com/embed/JD62DKYN_24" title="Echoes of Lituya Bay" allowfullscreen></iframe>
+
+  <div class="description">
+    <p>This fictional city was fully designed and animated in Blender.</p>
+<p>The concept behind it is to help young audiences understand that cities can exist in many different environments — from mountainsides to coastlines — and each unique location can be affected by different types of natural disasters. Many disasters might seem unfamiliar or unlikely in your own city, but they can be very real and devastating elsewhere.</p>
+<p>To reflect this, I created a city positioned in a high-risk area that could realistically be affected by multiple natural hazards. The animation incorporates real-world case scenarios to highlight the dangers and raise awareness about how natural disasters can impact various environments.</p>
+
+
+  </div>
+
+  <iframe src="https://www.youtube.com/embed/JD57DKYN_24" title="My city" allowfullscreen></iframe>
+
+  <a href="index.html" class="back-link">⬅ Back to Home</a>
+
+  <div class="totoro-guide">
+    <div class="bubble">Press play and follow the heroes!</div>
+    <img src="Totoro.png" alt="Totoro the guide" />
+  </div>
+
+  <footer>
+    Simulations are animated. For learning only. Stay safe!
+  </footer>
+
+</body>
+</html>

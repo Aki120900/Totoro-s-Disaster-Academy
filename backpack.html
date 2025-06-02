@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pack Totoro's Emergency Kit</title>
+  <style>
+    body {
+      font-family: 'Comic Neue', cursive;
+      background: #fefefe;
+      margin: 0;
+      color: #333;
+    }
+
+    h1 {
+      margin-top: 80px;
+      color: #ff6f61;
+      text-align: center;
+    }
+
+    p.intro {
+      text-align: center;
+      font-size: 1.1em;
+      margin-bottom: 30px;
+    }
+
+    .main-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      padding: 20px;
+      gap: 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .left-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .items {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .item {
+      width: 80px;
+      height: 80px;
+      background: #fff3e0;
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px #bbb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      cursor: grab;
+      transition: transform 0.5s ease, opacity 0.5s;
+    }
+
+    .item.packed {
+      transform: scale(0.1) translateY(100px);
+      opacity: 0;
+    }
+
+    .zones {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    .dropzone {
+      width: 280px;
+      height: 280px;
+      background: #e1f5fe;
+      border: 3px dashed #0288d1;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1em;
+      color: #0288d1;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .right-panel {
+      max-width: 250px;
+      text-align: center;
+    }
+
+    #totoro {
+      width: 280px;
+      animation: bounce 2s infinite;
+      display: block;
+      margin: 0 auto;
+    }
+
+    #reaction {
+      margin-top: 10px;
+      background: #fff3e0;
+      border-radius: 15px;
+      padding: 15px;
+      font-size: 1em;
+      font-style: italic;
+      box-shadow: 2px 2px 5px #ccc;
+    }
+
+    .buttons {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .button {
+      margin: 5px;
+      padding: 10px 25px;
+      background: #00bcd4;
+      color: white;
+      font-size: 1em;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .button:hover {
+      background: #0097a7;
+    }
+
+    #score-summary {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 1em;
+      color: #444;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @media (max-width: 768px) {
+      .main-container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Help Totoro Pack His Emergency Kit!</h1>
+<p class="intro">Drag emergency items into the <strong>Backpack</strong>. Non-essentials go in the <strong>Room</strong>.</p>
+
+<div class="main-container">
+  <div class="left-content">
+    <div class="items" id="itemList"></div>
+
+    <div class="zones">
+      <div id="backpack" class="dropzone" ondragover="allowDrop(event)" ondrop="dropItem(event, 'backpack')">
+        🎒 Backpack
+      </div>
+
+      <div id="room" class="dropzone" ondragover="allowDrop(event)" ondrop="dropItem(event, 'room')">
+        🛋️ Room
+      </div>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <img id="totoro" src="Totoro.png" alt="Totoro" />
+    <p id="reaction">🐾 Totoro says: Ready when you are!</p>
+  </div>
+</div>
+
+<div id="score-summary"></div>
+
+<div class="buttons">
+  <button class="button" onclick="resetGame()">🔁 Try Again</button>
+  <a href="index.html" class="button">🏡 Back to Main Menu</a>
+</div>
+
+<script>
+const items = [
+  { emoji: "🧃", correct: true },
+  { emoji: "🍦", correct: false },
+  { emoji: "🔦", correct: true },
+  { emoji: "🩹", correct: true },
+  { emoji: "⚽", correct: false },
+  { emoji: "🎧", correct: false },
+  { emoji: "📻", correct: true },
+  { emoji: "🍰", correct: false },
+  { emoji: "📦", correct: true },
+  { emoji: "🧯", correct: true },
+  { emoji: "📞", correct: true },
+  { emoji: "🎮", correct: false },
+  { emoji: "🥫", correct: true },
+  { emoji: "🎸", correct: false },
+  { emoji: "🪖", correct: true },
+  { emoji: "🧸", correct: false },
+  { emoji: "🔋", correct: true },
+  { emoji: "📕", correct: true },
+  { emoji: "🧼", correct: true },
+  { emoji: "🐱", correct: false },
+  { emoji: "🧁", correct: false },
+  { emoji: "🎲", correct: false },
+  { emoji: "🗺️", correct: true },
+  { emoji: "🔑", correct: true }
+];
+
+let totalCorrect = items.filter(i => i.correct).length;
+let correctCount = 0;
+let incorrectCount = 0;
+let misplacedCount = 0;
+let droppedItems = [];
+
+function initItems() {
+  const itemList = document.getElementById("itemList");
+  itemList.innerHTML = "";
+  items.sort(() => 0.5 - Math.random());
+
+  items.forEach((item, i) => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = item.emoji;
+    div.setAttribute("data-correct", item.correct);
+    div.id = "item" + i;
+    div.draggable = true;
+    div.addEventListener("dragstart", function (ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+    });
+    itemList.appendChild(div);
+  });
+}
+
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+function dropItem(ev, zone) {
+  ev.preventDefault();
+  const data = ev.dataTransfer.getData("text");
+  const item = document.getElementById(data);
+
+  if (!item || droppedItems.includes(data)) {
+    document.getElementById("reaction").textContent = "🐾 Totoro says: You've already used that!";
+    return;
+  }
+
+  droppedItems.push(data);
+  const isCorrect = item.getAttribute("data-correct") === "true";
+
+  if (zone === 'backpack') {
+    if (isCorrect) {
+      correctCount++;
+      document.getElementById("reaction").textContent = "🎒 Totoro says: Great! That’s needed!";
+    } else {
+      incorrectCount++;
+      document.getElementById("reaction").textContent = "😬 Totoro says: That doesn’t belong in the emergency kit!";
+    }
+  }
+
+  if (zone === 'room') {
+    if (isCorrect) {
+      misplacedCount++;
+      document.getElementById("reaction").textContent = "😢 Totoro says: Oh no! That was important!";
+    } else {
+      document.getElementById("reaction").textContent = "🛋️ Totoro says: Phew! At least it’s out of the way.";
+    }
+  }
+
+  item.classList.add("packed");
+  item.draggable = false;
+
+  const totalDropped = droppedItems.length;
+  if (totalDropped === items.length) {
+    let finalMessage = "";
+    if (incorrectCount === 0 && misplacedCount === 0) {
+      finalMessage = "🌟 Totoro says: Amazing! You packed everything right!";
+    } else {
+      finalMessage = "👍 Totoro says: You packed the essentials, but let’s be more careful next time!";
+    }
+
+    document.getElementById("reaction").textContent = finalMessage;
+    document.getElementById("score-summary").innerHTML =
+      `<p><strong>✅ Correct in Backpack:</strong> ${correctCount}</p>
+       <p><strong>❌ Wrong in Backpack:</strong> ${incorrectCount}</p>
+       <p><strong>📦 Important items misplaced in Room:</strong> ${misplacedCount}</p>`;
+  }
+}
+
+function resetGame() {
+  correctCount = 0;
+  incorrectCount = 0;
+  misplacedCount = 0;
+  droppedItems = [];
+  document.getElementById("reaction").textContent = "🐾 Totoro says: Let’s try again!";
+  document.getElementById("score-summary").innerHTML = "";
+  initItems();
+}
+
+initItems();
+</script>
+
+</body>
+</html>

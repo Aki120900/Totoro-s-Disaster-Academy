@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Safety Instructions – Totoro’s Training</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Neue', cursive, sans-serif;
+      background-color: #fff8f0;
+      color: #333;
+      text-align: center;
+      padding-bottom: 120px;
+    }
+
+    header {
+      background: #ff6f61;
+      color: white;
+      padding: 2rem 1rem;
+    }
+
+    header h1 {
+      font-size: 2.8em;
+    }
+
+    .badge-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin: 40px auto;
+      max-width: 1000px;
+      padding: 0 20px;
+    }
+
+    .badge {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: #ffe0b2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2em;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 3px 3px 0 #333;
+      transition: transform 0.3s ease;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .badge:hover {
+      transform: scale(1.1);
+      background: #ffcc80;
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 90%;
+      max-width: 400px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      transform: translate(-50%, -50%);
+      z-index: 999;
+    }
+
+    .popup h2 {
+      margin-top: 0;
+      font-size: 1.4em;
+      color: #e67e22;
+    }
+
+    .popup button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      background: #e67e22;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .popup button:hover {
+      background: #d35400;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 998;
+    }
+
+    .totoro-box {
+      background: #dcedc8;
+      padding: 30px 20px;
+      border-radius: 20px;
+      box-shadow: 3px 3px 0 #666;
+      max-width: 550px;
+      margin: 40px auto;
+    }
+
+    .totoro-box h3 {
+      margin-top: 0;
+    }
+
+    .totoro-box img {
+      width: 240px;
+      margin-bottom: 15px;
+      animation: totoroBounce 2s infinite ease-in-out;
+    }
+
+    .download-link {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #388e3c;
+      color: white;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .download-link:hover {
+      background: #2e7d32;
+    }
+
+    .home-button {
+      display: inline-block;
+      margin: 40px auto 0;
+      padding: 14px 30px;
+      font-weight: bold;
+      background: #607d8b;
+      color: white;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 1.1em;
+      box-shadow: 2px 2px 0 #333;
+      transition: background 0.3s ease;
+    }
+
+    .home-button:hover {
+      background: #455a64;
+    }
+
+    footer {
+      text-align: center;
+      background: #ecf0f1;
+      padding: 1rem;
+      font-size: 0.9em;
+      color: #555;
+    }
+
+    @keyframes totoroBounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Totoro's Safety Training</h1>
+    <p>Click a badge to learn how to stay safe!</p>
+  </header>
+
+  <div class="badge-grid">
+    <div class="badge" onclick="showPopup('Earthquake')">🌍<br>Earthquake</div>
+    <div class="badge" onclick="showPopup('Tsunami')">🌊<br>Tsunami</div>
+    <div class="badge" onclick="showPopup('Volcano')">🌋<br>Volcano</div>
+    <div class="badge" onclick="showPopup('Landslide')">🪨<br>Landslide</div>
+    <div class="badge" onclick="showPopup('Flood')">💧<br>Flood</div>
+    <div class="badge" onclick="showPopup('Cyclone')">🌪<br>Cyclone</div>
+  </div>
+
+  <div class="overlay" id="overlay" onclick="closePopup()"></div>
+
+  <div class="popup" id="popup">
+    <h2 id="popupTitle">Title</h2>
+    <p id="popupContent">Instructions go here...</p>
+    <button onclick="closePopup()">Got it!</button>
+  </div>
+
+  <div class="totoro-box">
+    <img src="Totoro.png" alt="Totoro Badge" />
+    <h3>🐾 Totoro says: “Always be ready!”</h3>
+    <p>Download and print your emergency guide:</p>
+    <a href="Emergency_guide.pdf" class="download-link" target="_blank">📥 Download Emergency Guide</a>
+  </div>
+
+  <a href="index.html" class="home-button">🐾 Let’s go back home with Totoro</a>
+
+  <footer>
+    Educational Use Only · Totoro Art for Conceptual Display Only
+  </footer>
+
+  <script>
+    const safetyTips = {
+      Earthquake: "Drop, cover, and hold on! Stay away from windows and heavy furniture. Go under a table if you can.",
+      Tsunami: "Move to higher ground immediately. Don’t wait for an official alert if you feel a long earthquake.",
+      Volcano: "Stay indoors, wear a mask, and keep windows shut. Listen to emergency broadcasts.",
+      Landslide: "Leave steep areas and go to flat, safe ground. Avoid rivers and broken trees.",
+      Flood: "Do not walk or drive through flood water. Head to higher floors and keep emergency supplies close.",
+      Cyclone: "Secure windows, stay indoors, and prepare to move if asked. Charge devices and gather essentials."
+    };
+
+    function showPopup(disaster) {
+      document.getElementById("popupTitle").textContent = disaster + " Safety Tips";
+      document.getElementById("popupContent").textContent = safetyTips[disaster];
+      document.getElementById("popup").style.display = "block";
+      document.getElementById("overlay").style.display = "block";
+    }
+
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+      document.getElementById("overlay").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Totoro’s Safety Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Neue', cursive;
+      background: #fff8f0;
+      color: #333;
+    }
+
+    header {
+      background: #ff6f61;
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #ffe0b2;
+      border-radius: 20px;
+      box-shadow: 2px 2px 0 #555;
+      display: none;
+    }
+
+    .question-box h2 {
+      font-size: 1.4em;
+    }
+
+    .answers button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      font-weight: bold;
+      background: #ffcc80;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .answers button:hover {
+      background: #ffc266;
+    }
+
+    .feedback {
+      font-size: 1.2em;
+      margin-top: 15px;
+    }
+
+    .score {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #388e3c;
+    }
+
+    .next-button {
+      display: inline-block;
+      margin-top: 20px;
+      background: #607d8b;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .next-button:hover {
+      background: #455a64;
+    }
+
+    .totoro-guide {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      text-align: center;
+      width: 240px;
+      z-index: 10;
+      animation: slideIn 1.5s ease-out, bounce 2s infinite 1.5s;
+    }
+
+    .totoro-guide img {
+      width: 200px;
+      margin-bottom: 5px;
+    }
+
+    .totoro-reaction {
+      font-size: 1em;
+      font-style: italic;
+      color: #555;
+    }
+
+    .start-screen, .end-screen {
+      max-width: 600px;
+      margin: 50px auto;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .start-button, .restart-button {
+      padding: 12px 25px;
+      font-size: 1.1em;
+      background: #e67e22;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      margin: 10px;
+      font-weight: bold;
+    }
+
+    .start-button:hover, .restart-button:hover {
+      background: #cf640c;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9em;
+      padding: 20px;
+      color: #999;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @media (max-width: 600px) {
+      .totoro-guide { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Totoro’s Safety Quiz</h1>
+  <p>Choose your level to begin!</p>
+</header>
+
+<!-- Start Screen -->
+<div class="start-screen" id="startScreen">
+    <h2>Welcome, Safety Explorer!</h2>
+    <p>Select a level to begin your safety adventure:</p>
+    <button class="start-button" onclick="startQuiz('children')">🧒 Children – 10 Easy Questions</button>
+    <button class="start-button" onclick="startQuiz('teen')">🧑 Teenagers – 20 Challenging Questions</button>
+    
+    <br><br>
+    <a href="index.html" class="start-button">🏡 Back to Main Menu</a>
+  </div>
+  
+
+<!-- Quiz Content -->
+<div class="container question-box" id="quizBox">
+  <h2 id="question">Loading question...</h2>
+  <div class="answers" id="answers"></div>
+  <div class="feedback" id="feedback"></div>
+  <div class="score" id="score"></div>
+  <div id="next" class="next-button" onclick="nextQuestion()" style="display:none;">Next Question ▶</div>
+</div>
+
+<!-- End Screen -->
+<div class="end-screen" id="endScreen" style="display: none;"></div>
+
+<!-- Totoro Floating Guide -->
+<div class="totoro-guide">
+  <img src="Totoro.png" alt="Totoro" />
+  <div class="totoro-reaction" id="totoroReaction">🧠 Totoro is thinking...</div>
+</div>
+
+<footer>
+  Educational Use Only · Totoro Safety Game
+</footer>
+
+<!-- Sound Effects -->
+<audio id="sound-correct" src="https://cdn.pixabay.com/audio/2022/03/15/audio_d67a505f3a.mp3"></audio>
+<audio id="sound-wrong" src="https://cdn.pixabay.com/audio/2022/03/15/audio_4fe4e15637.mp3"></audio>
+
+<script>
+const childrenQuestions = [
+  {
+    question: "What should you do if the floor shakes?",
+    answers: ["Run outside", "Hide under a table", "Look out the window"],
+    correct: 1,
+    feedback: ["❌ Unsafe!", "✅ Best choice!", "❌ Windows can break!"]
+  },
+  {
+    question: "If it floods, where should you go?",
+    answers: ["To the roof", "To the basement", "To high ground"],
+    correct: 2,
+    feedback: ["❌ Roof is risky!", "❌ Basement can fill with water!", "✅ High ground is safest!"]
+  },
+  {
+    question: "What do you need in an emergency kit?",
+    answers: ["Candy and toys", "Flashlight and water", "Paints and glitter"],
+    correct: 1,
+    feedback: ["❌ Not helpful!", "✅ Yes! These help in a real emergency.", "❌ Save crafts for later!"]
+  },
+  {
+    question: "If you smell smoke, what do you do?",
+    answers: ["Hide in your bed", "Tell an adult and leave", "Light a candle"],
+    correct: 1,
+    feedback: ["❌ Hiding is not safe!", "✅ Tell and leave quickly!", "❌ Never light fire!"]
+  },
+  {
+    question: "What should you do if a siren sounds?",
+    answers: ["Ignore it", "Follow your teacher or parent", "Go play outside"],
+    correct: 1,
+    feedback: ["❌ Always listen!", "✅ Adults know what to do!", "❌ Bad idea!"]
+  },
+  {
+    question: "Who do you call in an emergency?",
+    answers: ["Pizza place", "Emergency number", "Your friend"],
+    correct: 1,
+    feedback: ["❌ Not helpful!", "✅ Call 911 or your country’s number!", "❌ They may not be able to help!"]
+  },
+  {
+    question: "Should you touch electric wires in water?",
+    answers: ["Yes", "Only a little", "No!"],
+    correct: 2,
+    feedback: ["❌ Never!", "❌ Not safe!", "✅ That’s right! Stay away!"]
+  },
+  {
+    question: "What should you do during a thunderstorm?",
+    answers: ["Stay outside", "Go inside and stay away from windows", "Jump in puddles"],
+    correct: 1,
+    feedback: ["❌ Dangerous!", "✅ Stay dry and safe inside!", "❌ Not safe at all!"]
+  },
+  {
+    question: "Can you play with candles?",
+    answers: ["Yes, they’re fun", "Only with friends", "No, they are dangerous"],
+    correct: 2,
+    feedback: ["❌ Fire danger!", "❌ Still unsafe!", "✅ Fire is not a toy!"]
+  },
+  {
+    question: "What should you do during a drill at school?",
+    answers: ["Keep talking", "Follow instructions", "Run around"],
+    correct: 1,
+    feedback: ["❌ That’s not helpful!", "✅ Good job listening!", "❌ Stay calm!"]
+  }
+];
+
+
+const teenQuestions = [
+  {
+    question: "During a wildfire warning, what should you pack first?",
+    answers: ["Video games", "Important documents and water", "Your favorite hoodie"],
+    correct: 1,
+    feedback: ["❌ Not essential!", "✅ Smart and safe!", "❌ Comfort comes after safety!"]
+  },
+  {
+    question: "What’s the best place to go during an earthquake?",
+    answers: ["Under a sturdy desk", "Next to windows", "Outside near buildings"],
+    correct: 0,
+    feedback: ["✅ Yes, stay under something strong!", "❌ Glass can shatter!", "❌ Things might fall!"]
+  },
+  {
+    question: "What’s the safest way to prepare for a hurricane?",
+    answers: ["Tape windows and wait", "Build a kit, secure home, and follow alerts", "Buy snacks only"],
+    correct: 1,
+    feedback: ["❌ Not enough!", "✅ Best practice for storm safety!", "❌ Food is not the only need!"]
+  },
+  {
+    question: "If a tsunami is possible, what should you do?",
+    answers: ["Wait to see waves", "Run to the beach", "Go to high ground"],
+    correct: 2,
+    feedback: ["❌ Waves can come fast!", "❌ Dangerous zone!", "✅ Best response!"]
+  },
+  {
+    question: "What’s NOT in a good emergency kit?",
+    answers: ["Water and radio", "Charged flashlight", "Perfume and jewelry"],
+    correct: 2,
+    feedback: ["✅ You need these!", "✅ Stay lit and informed!", "❌ Not necessary for survival!"]
+  },
+  {
+    question: "When stuck indoors during disaster, what's best?",
+    answers: ["Stay informed and conserve resources", "Open all windows", "Keep using phone nonstop"],
+    correct: 0,
+    feedback: ["✅ Right!", "❌ Unsafe during weather!", "❌ You may need power later!"]
+  },
+  {
+    question: "Why avoid elevators during emergencies?",
+    answers: ["They're slow", "Power can go out", "They're scary"],
+    correct: 1,
+    feedback: ["❌ Not main reason!", "✅ They can stop working!", "❌ Safety first, not fear!"]
+  },
+  {
+    question: "What's one way to get alerts in disasters?",
+    answers: ["Social media jokes", "Emergency apps or radio", "Only friends"],
+    correct: 1,
+    feedback: ["❌ Not reliable!", "✅ These are real-time and reliable!", "❌ Better check official sources!"]
+  },
+  {
+    question: "In extreme heat, what helps prevent heatstroke?",
+    answers: ["Dark clothes", "Water and rest", "Hot coffee"],
+    correct: 1,
+    feedback: ["❌ Attracts heat!", "✅ Stay cool and hydrated!", "❌ Makes it worse!"]
+  },
+  {
+    question: "If trapped in a building, what should you do?",
+    answers: ["Yell and move a lot", "Stay still and make noise", "Set a fire"],
+    correct: 1,
+    feedback: ["❌ You could injure yourself!", "✅ Smart signal method!", "❌ Never do this!"]
+  },
+  {
+    question: "If a landslide is coming, what is safest?",
+    answers: ["Run uphill away", "Watch it come", "Stay put"],
+    correct: 0,
+    feedback: ["✅ Get to higher, safer ground!", "❌ Dangerous choice!", "❌ Risk of being buried!"]
+  },
+  {
+    question: "Why turn off gas during some disasters?",
+    answers: ["Save energy", "Prevent fire/explosion", "It’s noisy"],
+    correct: 1,
+    feedback: ["❌ That’s not why!", "✅ Correct! Gas leaks can be deadly!", "❌ Safety, not sound!"]
+  },
+  {
+    question: "Best first step in a house fire?",
+    answers: ["Get out safely", "Find pets first", "Collect valuables"],
+    correct: 0,
+    feedback: ["✅ Always evacuate first!", "❌ Lives come first!", "❌ Stuff can wait!"]
+  },
+  {
+    question: "Which items last longest in survival kits?",
+    answers: ["Fresh fruit", "Canned goods", "Milk"],
+    correct: 1,
+    feedback: ["❌ Spoils fast!", "✅ Shelf-stable!", "❌ Needs cold!"]
+  },
+  {
+    question: "Why avoid bridges during flooding?",
+    answers: ["They’re boring", "Water can destroy them", "Cars can float"],
+    correct: 1,
+    feedback: ["❌ Not the point!", "✅ They can collapse!", "❌ That’s true, but the bridge is bigger risk!"]
+  },
+  {
+    question: "In winter storm, safest place is:",
+    answers: ["Car with engine on", "Cold garage", "Indoors with blankets and radio"],
+    correct: 2,
+    feedback: ["❌ Carbon monoxide risk!", "❌ Not insulated!", "✅ Perfect!"]
+  },
+  {
+    question: "When you see someone injured, you should:",
+    answers: ["Move them right away", "Call for help first", "Run away"],
+    correct: 1,
+    feedback: ["❌ Could harm them!", "✅ Contact emergency help!", "❌ You can assist safely!"]
+  },
+  {
+    question: "What is a go-bag?",
+    answers: ["Toy bag", "Emergency bag ready to grab", "Picnic supplies"],
+    correct: 1,
+    feedback: ["❌ Not the purpose!", "✅ Exactly! It saves time in emergencies!", "❌ Wrong context!"]
+  },
+  {
+    question: "If you’re at the beach and water disappears suddenly, it means:",
+    answers: ["Swim further out", "Take a selfie", "Tsunami may be coming"],
+    correct: 2,
+    feedback: ["❌ Dangerous!", "❌ Not the time!", "✅ Run inland fast!"]
+  },
+  {
+    question: "Who should you follow during school evacuation?",
+    answers: ["Friends", "Teachers and staff", "Social media posts"],
+    correct: 1,
+    feedback: ["❌ Might be wrong!", "✅ They know the plan!", "❌ Not always accurate!"]
+  }
+];
+
+
+let current = 0;
+let score = 0;
+let level = 'children';
+let questionBank = [];
+
+function startQuiz(selectedLevel) {
+  level = selectedLevel;
+  questionBank = selectedLevel === 'teen' ? teenQuestions : childrenQuestions;
+  current = 0;
+  score = 0;
+
+  document.getElementById("startScreen").style.display = "none";
+  document.getElementById("quizBox").style.display = "block";
+  document.getElementById("endScreen").style.display = "none";
+  loadQuestion();
+}
+
+function loadQuestion() {
+  const q = questionBank[current];
+  document.getElementById("question").textContent = q.question;
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+  document.getElementById("feedback").textContent = "";
+  document.getElementById("next").style.display = "none";
+  document.getElementById("totoroReaction").textContent = "🧠 Totoro is thinking...";
+
+  q.answers.forEach((ans, idx) => {
+    const btn = document.createElement("button");
+    btn.textContent = ans;
+    btn.onclick = () => checkAnswer(idx);
+    answersDiv.appendChild(btn);
+  });
+}
+
+function checkAnswer(index) {
+  const q = questionBank[current];
+  const isCorrect = index === q.correct;
+  const sound = isCorrect ? document.getElementById("sound-correct") : document.getElementById("sound-wrong");
+  sound.play();
+
+  document.getElementById("feedback").textContent = q.feedback[index];
+  document.getElementById("totoroReaction").textContent = isCorrect
+    ? "🎉 Totoro says: That was super smart!"
+    : "😟 Totoro says: Oops! Try again next time.";
+
+  if (isCorrect) score++;
+  document.getElementById("score").textContent = `Score: ${score} / ${questionBank.length}`;
+  document.getElementById("next").style.display = "inline-block";
+
+  document.querySelectorAll("#answers button").forEach(btn => btn.disabled = true);
+}
+
+function nextQuestion() {
+  current++;
+  if (current < questionBank.length) {
+    loadQuestion();
+  } else {
+    endQuiz();
+  }
+}
+
+function endQuiz() {
+  document.getElementById("quizBox").style.display = "none";
+  const endScreen = document.getElementById("endScreen");
+  endScreen.style.display = "block";
+
+  if (score === questionBank.length) {
+    endScreen.innerHTML = `
+      <h2>🎉 Incredible!</h2>
+      <p>Totoro says: You're a Disaster Hero!</p>
+      <p class="score">Score: ${score} / ${questionBank.length}</p>
+      <img src="Totoro.png" width="200" alt="Totoro happy"/><br><br>
+      <a href="index.html" class="start-button">🏡 Go Home with Totoro</a>
+    `;
+  } else {
+    endScreen.innerHTML = `
+      <h2>Great try!</h2>
+      <p>Totoro says: Want to try again and beat your score?</p>
+      <p class="score">Score: ${score} / ${questionBank.length}</p>
+      <img src="Totoro.png" width="200" alt="Totoro thinking"/><br><br>
+      <button class="restart-button" onclick="startQuiz(level)">🔁 Try Again</button>
+    `;
+  }
+}
+</script>
+
+</body>
+</html>

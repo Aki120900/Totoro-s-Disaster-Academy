@@ -1,0 +1,25 @@
+.totoro-guide {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    text-align: center;
+    width: 300px;
+    z-index: 10;
+  }
+  
+  .totoro-guide img {
+    width: 280px;
+  }
+  
+  .totoro-guide .bubble {
+    background: #fff;
+    color: #333;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    margin-bottom: 5px;
+    font-size: 1em;
+    font-family: 'Comic Neue', cursive, sans-serif;
+  }
+  
+  
