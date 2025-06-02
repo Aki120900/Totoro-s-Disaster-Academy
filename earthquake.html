@@ -2,136 +2,246 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tsunami Data Visualisation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🌍 Earthquakes</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #fefefe;
+      background-color: #fefaf6;
       color: #333;
-      line-height: 1.6;
+      margin: 0;
+      text-align: center;
     }
 
-    h1 {
-      text-align: center;
+    header {
+      background-color: #ff6f61;
+      color: white;
+      padding: 40px 20px 20px;
+    }
+
+    header h1 {
       font-size: 2.5em;
-      color: #004080;
-      margin: 30px 0 10px;
+      margin: 0 0 10px;
     }
 
-    p.intro {
-      max-width: 900px;
-      margin: 0 auto 40px;
-      text-align: center;
-      font-size: 1.1em;
-      padding: 0 20px;
+    #totoro {
+      width: 300px;
+      animation: bounce 2s infinite;
+      margin: 30px auto 10px;
+    }
+
+    #quote {
+      font-style: italic;
+      font-size: 1.2em;
+      margin-bottom: 30px;
+      color: #004b61;
     }
 
     section {
       max-width: 1000px;
-      margin: 0 auto 60px;
+      margin: 40px auto;
       padding: 0 20px;
+      text-align: left;
     }
 
     section h2 {
       font-size: 1.6em;
-      margin-top: 30px;
-      color: #002f5f;
+      color: #222;
+      margin-bottom: 10px;
     }
 
     section p {
-      font-size: 1em;
-      margin-bottom: 20px;
+      font-size: 1.15em;
+      color: #444;
+      margin-bottom: 30px;
+      line-height: 1.6;
     }
 
-    section img {
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      padding: 10px 20px 40px;
+    }
+
+    .flip-card {
+      background-color: transparent;
+      width: 480px;
+      height: 300px;
+      perspective: 1000px;
+    }
+
+    .flip-card-inner {
+      position: relative;
       width: 100%;
-      max-width: 1000px;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+    }
+
+    .flip-card:hover .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .flip-card-front img,
+    .flip-card-back img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .flip-card-back {
+      transform: rotateY(180deg);
+    }
+
+    .card-title {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 1.1em;
     }
 
     .home-btn {
-      text-align: center;
-      margin: 40px auto;
+      margin: 50px auto 60px;
     }
 
     .home-btn a {
-      display: inline-block;
-      margin: 10px;
-      padding: 12px 25px;
-      background: #007acc;
+      background: #6c757d;
       color: white;
-      text-decoration: none;
+      padding: 12px 25px;
+      font-size: 1em;
       border-radius: 25px;
-      transition: background 0.3s ease;
-      font-weight: bold;
+      text-decoration: none;
+      transition: background 0.3s;
     }
 
     .home-btn a:hover {
-      background: #005f99;
+      background: #495057;
     }
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9em;
-      color: #666;
-      background: #f2f2f2;
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @media (max-width: 600px) {
+      .flip-card {
+        width: 90%;
+        height: auto;
+      }
+
+      .flip-card-front img,
+      .flip-card-back img {
+        height: auto;
+      }
     }
   </style>
 </head>
 <body>
 
-  <h1>Tsunami Wave Heights and Earthquake Magnitudes</h1>
-  <p class="intro">
-    This page presents a visual comparison of tsunamis with wave heights greater than 5 metres, alongside their associated earthquake magnitudes. Locations such as Alaska, Indonesia, Japan, and Russia are analysed to explore the relationship between seismic activity and tsunami impact.
-  </p>
+  <header>
+    <h1>🌍 Earthquakes</h1>
+    <img id="totoro" src="Totoro.png" alt="Totoro">
+    <p id="quote">🐾 Totoro says: Let’s explore the earthquake data!</p>
+  </header>
 
+  <!-- SECTION 1 -->
   <section>
-    <h2>Tsunamis in Alaska with Wave Height &gt; 5 m</h2>
-    <p>
-      This visualisation presents major tsunamis in Alaska with wave heights exceeding 5 metres. It includes notable events such as the 1958 Lituya Bay megatsunami, which produced the tallest wave ever recorded. The chart also compares the wave heights with their associated earthquake magnitudes.
-    </p>
-    <img src="Tsunamis/tsunami_chart_Alaska.png" alt="Tsunamis in Alaska">
+    <h2>Earthquake Frequency in Japan Over Time (Major Events Highlighted)</h2>
+    <p>This visualisation displays the historical frequency of earthquakes in Japan from the year 684 to 2024. The line chart illustrates the number of recorded earthquakes per year, while the highlighted version draws attention to major seismic events with a magnitude of 7.5 or higher.</p>
+    <p>By examining both graphs, we can identify trends in seismic activity across centuries, with a notable increase in recent decades. This may reflect tectonic patterns or advancements in data recording. The chart provides a clear overview of how often earthquakes have occurred and when the most severe ones have taken place.</p>
+    <div class="card-container">
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="/Earthquakes/Japan_line_chart.png" alt="Japan">
+          </div>
+          <div class="flip-card-back">
+            <img src="/Earthquakes/Japan_highlighted.png" alt="Japan highlights">
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
+
+  <!-- SECTION 2 -->
   <section>
-    <h2>Tsunamis in Indonesia with Wave Height &gt; 5 m</h2>
-    <p>
-      Indonesia's coastline is highly seismically active. This chart displays major tsunamis in the region with wave heights over 5 metres, including the devastating 2004 Indian Ocean tsunami. Earthquake magnitudes are included to reveal the scale of seismic triggers.
-    </p>
-    <img src="Tsunamis/tsunami_chart_Indonesia.png" alt="Tsunamis in Indonesia">
+    <h2>Earthquake Frequency in Chile Over Time (Major Events Highlighted)</h2>
+    <p>This visualisation presents the historical frequency of earthquakes in Chile from the early 1500s to 2024. The line graph depicts the annual number of recorded seismic events, with the highlighted version emphasising major earthquakes of magnitude 7.5 or greater.</p>
+    <p>The data reveals a noticeable increase in both the frequency and intensity of earthquakes in the 20th and 21st centuries. This trend may be attributed to tectonic activity along the Nazca and South American plate boundary, as well as improved monitoring and reporting practices in recent decades. The visual comparison helps identify periods of heightened seismic risk and informs our understanding of earthquake patterns in one of the world’s most seismically active regions.</p>
+    <div class="card-container">
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="/Earthquakes/Chile_line_chart.png" alt="Chile">
+          </div>
+          <div class="flip-card-back">
+            <img src="/Earthquakes/Chile_highlighted.png" alt="Chile_highlighted">
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
+
+  <!-- SECTION 3 -->
   <section>
-    <h2>Tsunamis in Japan with Wave Height &gt; 5 m</h2>
-    <p>
-      Japan has experienced numerous destructive tsunamis over centuries. This graph highlights events where wave heights exceeded 5 metres, including the catastrophic 2011 Tōhoku tsunami. The visual also pairs each tsunami with its earthquake magnitude.
-    </p>
-    <img src="Tsunamis/tsunami_chart_Japan.png" alt="Tsunamis in Japan">
+    <h2>Earthquake Frequency in Turkey Through History (Major Events Highlighted)</h2>
+    <p>This visualisation charts the historical frequency of earthquakes in Turkey from the year 100 CE to 2024. The standard line graph reflects the number of recorded earthquakes annually, while the highlighted version emphasises those with a magnitude of 7.5 or above.</p>
+    <p>The data reveals a notable concentration of high-magnitude seismic events in the 20th and 21st centuries. This may be due to increased tectonic stress along the North Anatolian Fault, one of the most active fault lines in the world, as well as improvements in seismic monitoring and historical documentation. The graph provides valuable insight into Turkey’s long-standing seismic exposure and underscores the importance of disaster preparedness in this highly vulnerable region.</p>
+    <div class="card-container">
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="/Earthquakes/Turkey_line_chart.png" alt="Turkey">
+          </div>
+          <div class="flip-card-back">
+            <img src="/Earthquakes/Turkey_highlighted.png" alt="Turkey_highlighted">
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section>
-    <h2>Tsunamis in Russia with Wave Height &gt; 5 m</h2>
-    <p>
-      The Russian Far East, particularly around Kamchatka and the Kuril Islands, has been affected by multiple tsunamis. This chart visualises wave heights above 5 metres and correlates them with earthquake events, shedding light on regional seismic risk.
-    </p>
-    <img src="Tsunamis/tsunami_chart_Russia.png" alt="Tsunamis in Russia">
-  </section>
 
-  <!-- Home Buttons -->
+    <!-- SECTION 4 -->
+    <section>
+        <h2>Earthquake Frequency in California Over Time (Major Events Highlighted)</h2>
+        <p>This visualisation captures the frequency of earthquakes in California from the early 19th century through to 2024. The line chart shows the number of earthquakes recorded each year, with the highlighted version specifically identifying high-magnitude events of 7.5 or greater.</p>
+        <p>California is located along the San Andreas Fault, one of the most seismically active fault zones in North America. The graph reveals periodic spikes in seismic activity, particularly during the 20th century, reflecting both geological processes and advancements in earthquake detection. This comparative chart offers insight into the region’s ongoing seismic risk and underlines the importance of readiness in an area with frequent tectonic movement.</p>
+        <div class="card-container">
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <img src="/Earthquakes/USA_(California)_line_chart.png" alt="California">
+              </div>
+              <div class="flip-card-back">
+                <img src="/Earthquakes/USA_(California)_highlighted.png" alt="California _highlighted">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+  <!-- Home -->
   <div class="home-btn">
     <a href="index.html">🏠 Let’s go back home with Totoro</a>
-    <a href="real-data.html">📊 Let’s go back to real data Visualisations</a>
+    <a href="real-data.html">🏠 Let’s go back to real data Visualisations</a>
   </div>
-
-  <footer>
-    Educational Use Only · Tsunami Data Visualisation for Conceptual Learning
-  </footer>
 
 </body>
 </html>
