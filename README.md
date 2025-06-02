@@ -62,5 +62,7 @@ Ethical considerations were central, including the decision to **use fictionalis
 
 ## Extra important links
 
-My blog is here, please check this website: https://aki120900.github.io/blog_graduation_project/
-Here is GitHub of my blog: https://github.com/Aki120900/blog_graduation_project
+- My blog is here, please check this website: https://aki120900.github.io/blog_graduation_project/
+- Here is GitHub of my blog: https://github.com/Aki120900/blog_graduation_project
+
+- Google Drive - please find here my Scientific Thesis and Blender files: 
