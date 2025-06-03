@@ -67,3 +67,6 @@ Ethical considerations were central, including the decision to **use fictionalis
 
 - Google Drive - please find here my Scientific Thesis and Blender files: https://drive.google.com/drive/folders/1yYn5uWkAcbtk4_Rb0DelAiJErV3VE4oC?usp=sharing
 - Google Drive - Blender files: https://drive.google.com/drive/folders/1mXMNunruiARusFFawEwn2uWemDPebrE7?usp=sharing
+
+- Update:
+Due to storage limitations on my primary Google Drive account, I had to upload the Thesis Report and Blender project using two of my backup accounts to ensure all files remain accessible. Additionally, I have mirrored the Thesis file on GitHub and linked it to my website to prevent any future access issues. These steps were taken simply to ensure smooth access—please feel free to reach out if there are any difficulties viewing the files.
